@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: aivlis
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: OPENROUTER_SITE_NAME
+        value: Aivlis
+      - key: OPENROUTER_SITE_URL
+        sync: false
+      - key: MODELS
+        value: openrouter:inclusionai/ling-3.0-flash-sante:free,openrouter:inclusionai/ling-3.0-flash-fin:free,openrouter:liquid/lfm-2.5-2.6b:free,openrouter:stealth/space-bunny-alpha,openrouter:nvidia/nemotron-3-super-120b-a12b:free,openrouter:nvidia/nemotron-3-ultra-550b-a55b:free
+      - key: FALLBACK_MODELS
+        value: groq:openai/gpt-oss-120b,groq:openai/gpt-oss-20b,groq:qwen/qwen3.8-27b,openrouter:poolside/laguna-xs-2.1:free,openrouter:qwen/qwen3.8-27b:free
+      - key: IMAGE_MODEL
+        value: inclusionai/ming-image-0.1-design
+      - key: SILVY_MODEL
+        value: groq:openai/gpt-oss-120b,openrouter:inclusionai/ling-3.0-flash-sante:free

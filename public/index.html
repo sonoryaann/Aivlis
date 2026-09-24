@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aivlis</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+  <section id="home" class="view active">
+    <div class="home-wrap">
+      <h1 class="logo">ai<span>v</span>lis</h1>
+      <div class="search-box">
+        <form id="search-form" class="search-form">
+          <input id="search-input" type="text" autocomplete="off" placeholder="Cerca con Aivlis..." />
+          <button type="submit">Cerca</button>
+        </form>
+        <div id="search-dropdown" class="search-dropdown"></div>
+      </div>
+      <p class="tagline">Il motore di ricerca che trova sempre una risposta. Peccato sia una cazzata.</p>
+      <div id="home-history" class="chip-block"></div>
+      <div id="home-trending" class="chip-block"></div>
+    </div>
+  </section>
+
+  <section id="results" class="view">
+    <header class="results-header">
+      <a href="#" id="logo-small" class="logo-small">ai<span>v</span>lis</a>
+      <div class="search-box search-box-small">
+        <form id="search-form-2" class="search-form-small">
+          <input id="search-input-2" type="text" autocomplete="off" />
+          <button type="submit">Cerca</button>
+        </form>
+        <div id="search-dropdown-2" class="search-dropdown"></div>
+      </div>
+    </header>
+    <div class="results-tabs">
+      <button type="button" class="results-tab active" data-tab="all">Tutti</button>
+      <button type="button" class="results-tab" data-tab="images">Immagini</button>
+    </div>
+    <div id="tab-all" class="tab-pane active">
+      <div id="results-status" class="results-status"></div>
+      <div class="results-body">
+        <div id="results-list" class="results-list"></div>
+        <aside id="info-panel" class="info-panel"></aside>
+      </div>
+    </div>
+    <div id="tab-images" class="tab-pane">
+      <div id="images-status" class="results-status"></div>
+      <div id="images-grid" class="images-grid"></div>
+    </div>
+  </section>
+
+  <section id="page" class="view">
+    <div id="page-toolbar" class="page-toolbar">
+      <button id="back-btn" class="back-btn">&larr; torna ai risultati</button>
+      <span id="page-fake-url" class="page-fake-url"></span>
+    </div>
+    <div id="page-content" class="page-content"></div>
+  </section>
+
+  <button id="silvy-fab" class="silvy-fab" type="button">Ask Silvy...</button>
+  <div id="silvy-panel" class="silvy-panel">
+    <div class="silvy-header">
+      <span class="silvy-name">Silvy</span>
+      <button id="silvy-close" class="silvy-close" type="button" aria-label="Chiudi">&times;</button>
+    </div>
+    <div id="silvy-messages" class="silvy-messages"></div>
+    <form id="silvy-form" class="silvy-form">
+      <input id="silvy-input" type="text" autocomplete="off" placeholder="Scrivi a Silvy..." />
+      <button type="submit">Invia</button>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
