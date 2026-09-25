@@ -21,4 +21,4 @@ services:
       - key: IMAGE_MODEL
         value: inclusionai/ming-image-0.1-design
       - key: SILVY_MODEL
-        value: groq:openai/gpt-oss-120b,openrouter:inclusionai/ling-3.0-flash-sante:free
+        value: groq:qwen/qwen3.8-27b,openrouter:qwen/qwen3.8-27b:free
