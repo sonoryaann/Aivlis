@@ -485,10 +485,16 @@ function openPage(id) {
   els.pageFakeUrl.textContent = result.url;
   els.pageContent.innerHTML = `
     <div class="page-theme ${theme}">
-      <div class="article">
-        <h1>${escapeHtml(result.title)}</h1>
-        <div class="article-meta">${escapeHtml(result.site)} &middot; ${escapeHtml(result.author)} &middot; ${escapeHtml(result.date)}</div>
-        <div class="article-body">${marked.parse(result.content || "")}</div>
+      <header class="site-header">
+        <span class="site-logo">${escapeHtml(result.site)}</span>
+        <nav class="site-nav"></nav>
+      </header>
+      <div class="site-body">
+        <div class="article">
+          <h1>${escapeHtml(result.title)}</h1>
+          <div class="article-meta">${escapeHtml(result.site)} &middot; ${escapeHtml(result.author)} &middot; ${escapeHtml(result.date)}</div>
+          <div class="article-body">${marked.parse(result.content || "")}</div>
+        </div>
       </div>
     </div>
   `;

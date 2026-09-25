@@ -471,12 +471,34 @@ body {
   min-height: calc(100vh - 45px);
 }
 
-/* Il wrapper .page-theme copre tutto lo spazio disponibile con lo sfondo/colore del
-   tema (sensazione di sito "vero" a piena pagina); .article è la card di contenuto
-   leggibile al suo interno. Le due classi sono su elementi DIVERSI e annidati, così i
-   selettori tipo ".theme-x .article" sotto funzionano davvero. */
+/* Ogni tema fissa sfondo/colore su .page-theme e lo tiene identico dall'header al fondo
+   pagina: nessun riquadro con bordo/ombra "appoggiato" su uno sfondo diverso, come su un
+   sito vero. .site-header è la barra di navigazione finta a piena larghezza; .site-body
+   centra .article (largo per la leggibilità, ma senza bordo/ombra/sfondo proprio). */
 .page-theme {
   min-height: calc(100vh - 45px);
+  display: flex;
+  flex-direction: column;
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  padding: 16px clamp(20px, 5vw, 56px);
+}
+.site-logo {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.site-nav {
+  font-size: 0.82rem;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.site-body {
+  flex: 1;
   display: flex;
   justify-content: center;
   padding: 0 20px;
@@ -484,7 +506,7 @@ body {
 .article {
   width: 100%;
   box-sizing: border-box;
-  padding: 36px clamp(20px, 5vw, 56px) 60px;
+  padding: 8px clamp(20px, 5vw, 56px) 60px;
 }
 .article h1 {
   margin-top: 0;
@@ -533,14 +555,18 @@ body {
 
 /* --- theme-wiki: enciclopedia online --- */
 .theme-wiki {
-  background: #eaecf0;
+  background: #fff;
   color: #202122;
 }
+.theme-wiki .site-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #a2a9b1;
+}
+.theme-wiki .site-logo { font-family: Georgia, serif; font-style: italic; }
+.theme-wiki .site-nav::before { content: "Articolo casuale \00B7 Aiuto \00B7 Accedi"; }
 .theme-wiki .article {
-  background: #fff;
   max-width: clamp(320px, 62%, 100%);
   margin: 0 auto;
-  border: 1px solid #a2a9b1;
   font-family: Georgia, "Times New Roman", serif;
 }
 .theme-wiki .article h1 {
@@ -555,9 +581,8 @@ body {
 }
 .theme-wiki .article a { color: #0645ad; }
 .theme-wiki .article-meta {
-  background: #f8f9fa;
-  border: 1px solid #eaecf0;
-  padding: 8px 12px;
+  border-bottom: 1px solid #eaecf0;
+  padding-bottom: 10px;
   font-family: Arial, sans-serif;
   color: #54595d;
 }
@@ -567,11 +592,16 @@ body {
   background: #cddcf0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23cddcf0'/%3E%3C/svg%3E");
   color: #3a2a52;
 }
+.theme-blog2000 .site-header {
+  background: #ff69b4;
+  color: #fff;
+}
+.theme-blog2000 .site-logo { font-family: "Comic Sans MS", "Comic Sans", cursive, sans-serif; }
+.theme-blog2000 .site-nav { color: #fff; opacity: 0.9; }
+.theme-blog2000 .site-nav::before { content: "Home \00B7 Chi sono \00B7 Guestbook \00B7 Musica"; }
 .theme-blog2000 .article {
-  background: #fffef0;
-  max-width: clamp(320px, 50%, 100%);
-  margin: 40px auto;
-  border: 3px solid #ff69b4;
+  max-width: clamp(320px, 60%, 100%);
+  margin: 0 auto;
   font-family: "Comic Sans MS", "Comic Sans", cursive, sans-serif;
 }
 .theme-blog2000 .article h1 {
@@ -586,15 +616,24 @@ body {
 
 /* --- theme-tabloid: giornale scandalistico --- */
 .theme-tabloid {
-  background: #111;
-  color: #fff200;
-}
-.theme-tabloid .article {
   background: #fff200;
   color: #111;
+}
+.theme-tabloid .site-header {
+  background: #111;
+  color: #fff200;
+  border-bottom: 4px solid #c00000;
+}
+.theme-tabloid .site-logo {
+  font-family: "Arial Black", Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.theme-tabloid .site-nav { color: #fff200; }
+.theme-tabloid .site-nav::before { content: "Cronaca \00B7 Gossip \00B7 Sport \00B7 Oroscopo"; }
+.theme-tabloid .article {
   max-width: clamp(320px, 78%, 100%);
-  margin: 30px auto;
-  border: 6px solid #000;
+  margin: 0 auto;
   font-family: "Arial Black", Arial, sans-serif;
 }
 .theme-tabloid .article h1 {
@@ -624,15 +663,17 @@ body {
 
 /* --- theme-corporate: portale istituzionale/azienda --- */
 .theme-corporate {
-  background: #eef1f4;
+  background: #fff;
   color: #202124;
 }
+.theme-corporate .site-header {
+  border-bottom: 1px solid #e0e4e8;
+}
+.theme-corporate .site-logo { color: #0b5394; font-family: "Segoe UI", Helvetica, Arial, sans-serif; }
+.theme-corporate .site-nav::before { content: "Prodotti \00B7 Chi siamo \00B7 Contatti"; }
 .theme-corporate .article {
-  background: #fff;
   max-width: clamp(320px, 68%, 100%);
-  margin: 30px auto;
-  border-top: 6px solid #0b5394;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  margin: 0 auto;
   font-family: "Segoe UI", Helvetica, Arial, sans-serif;
 }
 .theme-corporate .article h1 { color: #0b5394; }
@@ -654,21 +695,27 @@ body {
   color: #24333a;
   font-size: 0.9rem;
 }
+.theme-forum .site-header {
+  background: #3a6ea5;
+  color: #fff;
+}
+.theme-forum .site-logo { font-family: Verdana, Geneva, sans-serif; }
+.theme-forum .site-nav { color: #dce8f4; }
+.theme-forum .site-nav::before { content: "Regolamento \00B7 Iscritti \00B7 Cerca"; }
 .theme-forum .article {
-  background: #eef2f5;
   max-width: clamp(320px, 74%, 100%);
-  margin: 30px auto;
-  border: 1px solid #7a95a3;
-  padding-top: 0;
-  overflow: hidden;
+  margin: 0 auto;
+  padding-top: 30px;
   font-family: Verdana, Geneva, sans-serif;
 }
 .theme-forum .article h1 {
-  background: #3a6ea5;
-  color: #fff;
+  background: #b8cfe0;
+  color: #1c2b32;
   margin: 0 calc(-1 * clamp(20px, 5vw, 56px)) 20px;
-  padding: 16px clamp(20px, 5vw, 56px);
+  padding: 14px clamp(20px, 5vw, 56px);
   font-size: 1.2rem;
+  border-top: 1px solid #7a95a3;
+  border-bottom: 1px solid #7a95a3;
 }
 .theme-forum .article h2 {
   background: #b8cfe0;
@@ -686,15 +733,25 @@ body {
 
 /* --- theme-govdoc: documento governativo/burocratico --- */
 .theme-govdoc {
-  background: #e4e4e0;
+  background: #fdfdf8;
   color: #1a1a1a;
 }
+.theme-govdoc .site-header {
+  border-bottom: 3px double #999;
+  justify-content: center;
+  text-align: center;
+}
+.theme-govdoc .site-logo {
+  font-family: "Times New Roman", Times, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+}
+.theme-govdoc .site-nav { display: none; }
 .theme-govdoc .article {
-  background: #fdfdf8;
   max-width: clamp(320px, 54%, 100%);
-  margin: 40px auto;
-  border: 1px solid #999;
-  padding-top: 76px;
+  margin: 0 auto;
+  padding-top: 56px;
   position: relative;
   font-family: "Times New Roman", Times, serif;
 }
@@ -731,11 +788,14 @@ body {
   background: #0b0d12;
   color: #d7dae0;
 }
+.theme-terminal .site-header {
+  border-bottom: 1px solid #22262f;
+}
+.theme-terminal .site-logo { color: #6ea8fe; }
+.theme-terminal .site-nav::before { content: "Blog \00B7 Changelog \00B7 GitHub"; }
 .theme-terminal .article {
-  background: #12151b;
   max-width: clamp(320px, 56%, 100%);
-  margin: 40px auto;
-  border: 1px solid #22262f;
+  margin: 0 auto;
   font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 .theme-terminal .article h1::before {
