@@ -35,6 +35,7 @@ const state = {
   searchDone: false, // true quando la ricerca testuale è terminata (serve prima di generare le immagini)
   imagesStarted: false, // true dopo aver avviato la generazione immagini per questa ricerca
   imagesEventSource: null,
+  selectedImageId: null, // id del risultato mostrato nel pannello dettaglio immagine
   silvyHistory: [], // [{role:"user"|"assistant", content}] per la chat con Silvy
   silvyBusy: false,
 };
@@ -59,6 +60,14 @@ const els = {
   tabImages: document.getElementById("tab-images"),
   imagesGrid: document.getElementById("images-grid"),
   imagesStatus: document.getElementById("images-status"),
+  imagePanel: document.getElementById("image-panel"),
+  ipFavicon: document.getElementById("ip-favicon"),
+  ipSite: document.getElementById("ip-site"),
+  ipClose: document.getElementById("ip-close"),
+  ipImg: document.getElementById("ip-img"),
+  ipTitle: document.getElementById("ip-title"),
+  ipUrl: document.getElementById("ip-url"),
+  ipVisit: document.getElementById("ip-visit"),
   logoSmall: document.getElementById("logo-small"),
   backBtn: document.getElementById("back-btn"),
   pageFakeUrl: document.getElementById("page-fake-url"),
@@ -265,6 +274,7 @@ function runSearch(query) {
   els.tabImages.classList.remove("active");
   state.skeletons = [];
   state.imageCardsById.clear();
+  closeImagePanel();
   state.imagesTabOpened = false;
   state.searchDone = false;
   state.imagesStarted = false;
@@ -339,7 +349,7 @@ function runSearch(query) {
 }
 
 function statusText(count, total, fromCache, quotaExhausted) {
-  const base = `Circa ${count} risultati (nessuno affidabile)`;
+  const base = `Circa ${count} risultati (contali se non ti fidi)`;
   if (quotaExhausted) {
     return `${base} — quota giornaliera gratuita di OpenRouter esaurita, riprova più tardi`;
   }
@@ -412,7 +422,7 @@ function renderImageCard(result) {
     <div class="image-card-caption">${escapeHtml(result.site)}</div>
   `;
   const img = card.querySelector("img");
-  card.addEventListener("click", () => openPage(result.id));
+  card.addEventListener("click", () => openImagePanel(result.id));
   state.imageCardsById.set(result.id, { card, img });
   return card;
 }
@@ -461,6 +471,7 @@ function maybeStartImages() {
         entry.img.classList.add("loaded");
         entry.card.classList.add("loaded");
         updateImagesStatus();
+        if (state.selectedImageId === id) renderImagePanel(id);
       },
       { once: true }
     );
@@ -473,6 +484,7 @@ function maybeStartImages() {
       const entry = state.imageCardsById.get(id);
       if (entry) entry.card.classList.add("image-failed");
       updateImagesStatus();
+      if (state.selectedImageId === id) renderImagePanel(id);
     }
   });
 
@@ -481,6 +493,45 @@ function maybeStartImages() {
     updateImagesStatus();
   });
 }
+
+/* ---------- Pannello dettaglio immagine (stile Google Immagini: griglia a sinistra,
+   dettaglio a destra senza nascondere la griglia) ---------- */
+
+function renderImagePanel(id) {
+  const result = state.results.get(id);
+  const entry = state.imageCardsById.get(id);
+  if (!result || !entry) return;
+  els.ipFavicon.style.background = faviconColorFor(result.site || "");
+  els.ipFavicon.textContent = faviconInitials(result.site || "");
+  els.ipSite.textContent = result.site;
+  els.ipTitle.textContent = result.title;
+  els.ipUrl.textContent = result.url;
+  const loaded = entry.img.classList.contains("loaded");
+  const failed = entry.card.classList.contains("image-failed");
+  els.imagePanel.classList.toggle("ip-loading", !loaded && !failed);
+  els.imagePanel.classList.toggle("ip-failed", failed);
+  els.ipImg.src = loaded ? entry.img.src : "";
+}
+
+function openImagePanel(id) {
+  state.selectedImageId = id;
+  for (const { card } of state.imageCardsById.values()) card.classList.remove("selected");
+  const entry = state.imageCardsById.get(id);
+  if (entry) entry.card.classList.add("selected");
+  renderImagePanel(id);
+  els.imagePanel.classList.add("open");
+}
+
+function closeImagePanel() {
+  state.selectedImageId = null;
+  els.imagePanel.classList.remove("open");
+  for (const { card } of state.imageCardsById.values()) card.classList.remove("selected");
+}
+
+els.ipClose.addEventListener("click", closeImagePanel);
+els.ipVisit.addEventListener("click", () => {
+  if (state.selectedImageId) openPage(state.selectedImageId);
+});
 
 function openPage(id) {
   const result = state.results.get(id);
@@ -491,6 +542,12 @@ function openPage(id) {
     state.themeById.set(id, theme);
   }
   const theme = state.themeById.get(id);
+
+  const imgEntry = state.imageCardsById.get(id);
+  const heroImgSrc = imgEntry && imgEntry.img.classList.contains("loaded") ? imgEntry.img.src : null;
+  const heroImgHtml = heroImgSrc
+    ? `<img class="article-hero-img" src="${heroImgSrc}" alt="${escapeHtml(result.title)}" />`
+    : "";
 
   els.pageFakeUrl.textContent = result.url;
   els.pageContent.innerHTML = `
@@ -503,6 +560,7 @@ function openPage(id) {
         <div class="article">
           <h1>${escapeHtml(result.title)}</h1>
           <div class="article-meta">${escapeHtml(result.site)} &middot; ${escapeHtml(result.author)} &middot; ${escapeHtml(result.date)}</div>
+          ${heroImgHtml}
           <div class="article-body">${marked.parse(result.content || "")}</div>
         </div>
       </div>

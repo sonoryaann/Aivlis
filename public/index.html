@@ -49,7 +49,22 @@
     </div>
     <div id="tab-images" class="tab-pane">
       <div id="images-status" class="results-status"></div>
-      <div id="images-grid" class="images-grid"></div>
+      <div class="images-body">
+        <div id="images-grid" class="images-grid"></div>
+        <aside id="image-panel" class="image-panel">
+          <div class="image-panel-header">
+            <span id="ip-favicon" class="result-favicon"></span>
+            <span id="ip-site" class="ip-site"></span>
+            <button id="ip-close" type="button" class="ip-close" aria-label="Chiudi">&times;</button>
+          </div>
+          <div class="image-panel-img-wrap">
+            <img id="ip-img" alt="" />
+          </div>
+          <div id="ip-title" class="ip-title"></div>
+          <div id="ip-url" class="ip-url"></div>
+          <button id="ip-visit" type="button" class="ip-visit-btn">Visita il sito &rarr;</button>
+        </aside>
+      </div>
     </div>
   </section>
 
