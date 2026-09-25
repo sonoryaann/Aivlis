@@ -447,6 +447,7 @@ body {
   z-index: 5;
 }
 .back-btn {
+  flex-shrink: 0;
   border: none;
   background: #fff;
   border: 1px solid #dadce0;
@@ -454,9 +455,17 @@ body {
   padding: 6px 14px;
   cursor: pointer;
   font-size: 0.85rem;
+  white-space: nowrap;
 }
 .back-btn:hover { background: #f8f9fa; }
-.page-fake-url { color: #5f6368; }
+.page-fake-url {
+  flex: 1;
+  min-width: 0;
+  color: #5f6368;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .page-content {
   min-height: calc(100vh - 45px);
@@ -479,6 +488,8 @@ body {
 }
 .article h1 {
   margin-top: 0;
+  font-size: clamp(1.5rem, 6vw, 2.25rem);
+  line-height: 1.18;
 }
 .article-meta {
   font-size: 0.85rem;
@@ -589,7 +600,7 @@ body {
 .theme-tabloid .article h1 {
   color: #c00000;
   text-transform: uppercase;
-  font-size: 2.2rem;
+  font-size: clamp(1.6rem, 7vw, 2.4rem);
   letter-spacing: -1px;
 }
 .theme-tabloid .article h2 {
