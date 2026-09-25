@@ -430,6 +430,7 @@ app.post("/api/chat", async (req, res) => {
       return;
     } catch (err) {
       lastErr = err;
+      console.error(`[aivlis] Silvy: "${entry.provider}:${entry.modelId}" ha fallito — ${err.message}`);
     }
   }
   res.status(502).json({ error: lastErr?.message || "Silvy non è riuscita a rispondere" });
