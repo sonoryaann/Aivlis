@@ -163,7 +163,7 @@ body {
   flex: 1;
   border: none;
   padding: 10px 16px;
-  font-size: 0.95rem;
+  font-size: 1rem; /* iOS Safari auto-zooms the page on focus if an input is under 16px */
   outline: none;
 }
 .search-form-small button {
@@ -1129,7 +1129,7 @@ body {
   color: var(--silvy-text);
   border-radius: 10px;
   padding: 10px 12px;
-  font-size: 0.9rem;
+  font-size: 1rem; /* iOS Safari auto-zooms the page on focus if an input is under 16px */
   font-family: inherit;
   outline: none;
 }
