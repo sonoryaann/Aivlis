@@ -361,22 +361,35 @@ body {
 .result-favicon-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 2px;
 }
 .result-favicon {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   flex-shrink: 0;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
-.result-site { color: #202124; font-size: 0.8rem; }
-.result-url { color: #4d5156; font-size: 0.78rem; }
+.result-site { color: #202124; font-size: 0.85rem; }
+.result-url {
+  color: #4d5156;
+  font-size: 0.78rem;
+  margin: 2px 0 0 32px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .result-title {
   color: #1a0dab;
   font-size: 1.15rem;
-  margin: 2px 0 4px;
+  margin: 4px 0 4px;
   text-decoration: none;
   display: block;
 }
@@ -406,18 +419,23 @@ body {
 .skeleton-favicon-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 6px;
 }
 .skeleton-favicon {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 .skeleton-site {
   width: 120px;
   height: 10px;
+}
+.skeleton-url {
+  width: 160px;
+  height: 9px;
+  margin: 0 0 10px 32px;
 }
 .skeleton-title {
   width: 65%;

@@ -76,8 +76,17 @@ function showView(view) {
   view.classList.add("active");
 }
 
-function randomFaviconColor() {
-  return FAVICON_COLORS[Math.floor(Math.random() * FAVICON_COLORS.length)];
+function faviconColorFor(site) {
+  let hash = 0;
+  for (let i = 0; i < site.length; i++) hash = (hash * 31 + site.charCodeAt(i)) >>> 0;
+  return FAVICON_COLORS[hash % FAVICON_COLORS.length];
+}
+
+function faviconInitials(site) {
+  const words = site.trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return "?";
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
 }
 
 /* ---------- Cronologia ricerche (localStorage) ---------- */
@@ -206,6 +215,7 @@ function renderSkeletonCard() {
       <span class="skeleton-favicon skeleton-line"></span>
       <span class="skeleton-site skeleton-line"></span>
     </div>
+    <div class="skeleton-url skeleton-line"></div>
     <div class="skeleton-title skeleton-line"></div>
     <div class="skeleton-desc skeleton-line"></div>
     <div class="skeleton-desc skeleton-line short"></div>
@@ -371,10 +381,10 @@ function renderResultCard(result) {
   card.className = "result-card";
   card.innerHTML = `
     <div class="result-favicon-row">
-      <span class="result-favicon" style="background:${randomFaviconColor()}"></span>
+      <span class="result-favicon" style="background:${faviconColorFor(result.site || "")}">${escapeHtml(faviconInitials(result.site || ""))}</span>
       <span class="result-site">${escapeHtml(result.site)}</span>
-      <span class="result-url">${escapeHtml(result.url)}</span>
     </div>
+    <div class="result-url">${escapeHtml(result.url)}</div>
     <a class="result-title" href="#">${escapeHtml(result.title)}</a>
     <div class="result-desc">${escapeHtml(result.description)}</div>
     <div class="result-meta">${escapeHtml(result.author)}${result.author && result.date ? " &middot; " : ""}${escapeHtml(result.date)}</div>
